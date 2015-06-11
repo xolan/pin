@@ -1,4 +1,8 @@
 # pin
+
+`pin help`:
+
+```
 Pin is a command pinner, similar to aliasing
 
 Usage: 
@@ -15,3 +19,4 @@ Flags:
 
 
 Use "pin help [command]" for more information about a command.
+```
