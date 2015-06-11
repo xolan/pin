@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	log "github.com/Sirupsen/logrus"
@@ -37,6 +38,7 @@ func main() {
 		Long:  `Pin is a command pinner, similar to aliasing`,
 		Run: func(cmd *cobra.Command, args []string) {
 			config(Verbose)
+			fmt.Println(cmd.UsageString())
 		},
 	}
 
@@ -49,10 +51,10 @@ func main() {
 			list.List()
 		},
 	}
-	
+
 	var GenDocsCmd = &cobra.Command{
-		Use:	"gendocs",
-		Short:  "Generate documentation for this program",
+		Use:   "gendocs",
+		Short: "Generate documentation for this program",
 		Long:  "Generate documentation for this program",
 		Run: func(cmd *cobra.Command, args []string) {
 			config(Verbose)
