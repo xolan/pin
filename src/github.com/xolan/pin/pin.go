@@ -49,8 +49,19 @@ func main() {
 			list.List()
 		},
 	}
+	
+	var GenDocsCmd = &cobra.Command{
+		Use:	"gendocs",
+		Short:  "Generate documentation for this program",
+		Long:  "Generate documentation for this program",
+		Run: func(cmd *cobra.Command, args []string) {
+			config(Verbose)
+			cobra.GenMarkdownTree(PinCmd, "./")
+		},
+	}
 
 	PinCmd.PersistentFlags().BoolVarP(&Verbose, "verbose", "v", false, "verbose output")
 	PinCmd.AddCommand(ListCmd)
+	PinCmd.AddCommand(GenDocsCmd)
 	PinCmd.Execute()
 }
