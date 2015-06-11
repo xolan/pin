@@ -11,12 +11,13 @@ import (
 
 type commands struct {
 	Commands []struct {
-		Command string `json:"command`
+		Command string `json:"command"`
 	}
 }
 
 var c = new(commands)
 
+// List pinned commands defined in ./.pin in found, else ~/.pin
 func List() {
 	log.Debugln("listing...")
 	var path, _ = homedir.Expand("~/.pin")

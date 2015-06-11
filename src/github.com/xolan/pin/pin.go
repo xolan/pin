@@ -10,7 +10,7 @@ import (
 	"github.com/xolan/pin/list"
 )
 
-func sanity_check() {
+func sanityCheck() {
 	log.Debugln("Checking sanity...")
 	var path, _ = homedir.Expand("~/.pin")
 	if _, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_EXCL, 0666); !os.IsNotExist(err) {
@@ -26,7 +26,7 @@ func config(v bool) {
 	} else {
 		log.SetLevel(log.ErrorLevel)
 	}
-	sanity_check()
+	sanityCheck()
 }
 
 func main() {
@@ -58,7 +58,7 @@ func main() {
 		Long:  "Generate documentation for this program",
 		Run: func(cmd *cobra.Command, args []string) {
 			config(Verbose)
-			cobra.GenMarkdownTree(PinCmd, "./")
+			cobra.GenMarkdownTree(PinCmd, "./docs")
 		},
 	}
 
