@@ -7,6 +7,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
+	"github.com/xolan/pin/add"
 	"github.com/xolan/pin/list"
 )
 
@@ -52,6 +53,23 @@ func main() {
 		},
 	}
 
+	ListCmd.Flags().BoolVarP(&list.ShouldNotListGlobal, "no-global", "", false, "Do not read pinned commands from ~/.pin")
+	ListCmd.Flags().BoolVarP(&list.ShouldNotListLocal, "no-local", "", false, "Do not read pinned commands from ./.pin")
+
+	var AddCmd = &cobra.Command{
+		Use:   "add",
+		Short: "Add (pin) a command",
+		Long:  "Add (pin) a command",
+		Run: func(cmd *cobra.Command, args []string) {
+			config(Verbose)
+			add.Add()
+		},
+	}
+
+	AddCmd.Flags().StringVarP(&add.CommandFlag, "cmd", "c", "", "What command to pin")
+	AddCmd.Flags().StringVarP(&add.IdentifierFlag, "id", "i", "", "What to pin the command as")
+	AddCmd.Flags().BoolVarP(&add.LocalFlag, "local", "l", false, "Whether to store the pinned command locally")
+
 	var GenDocsCmd = &cobra.Command{
 		Use:   "gendocs",
 		Short: "Generate documentation for this program",
@@ -64,6 +82,7 @@ func main() {
 
 	PinCmd.PersistentFlags().BoolVarP(&Verbose, "verbose", "v", false, "verbose output")
 	PinCmd.AddCommand(ListCmd)
+	PinCmd.AddCommand(AddCmd)
 	PinCmd.AddCommand(GenDocsCmd)
 	PinCmd.Execute()
 }
