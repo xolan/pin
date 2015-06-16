@@ -49,5 +49,13 @@ func Add() {
 		Hash:       fmt.Sprintf("%x", hash),
 	}
 
-	io.Store(cmd, LocalFlag)
+	var stored = new(command.Commands)
+	if LocalFlag {
+		io.ReadLocal(stored)
+	} else {
+		io.ReadGlobal(stored)
+	}
+	stored.AddCommand(cmd)
+
+	io.Store(stored, LocalFlag)
 }

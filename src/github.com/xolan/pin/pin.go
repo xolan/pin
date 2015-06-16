@@ -9,6 +9,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/xolan/pin/add"
 	"github.com/xolan/pin/list"
+	"github.com/xolan/pin/remove"
 )
 
 func sanityCheck() {
@@ -67,8 +68,21 @@ func main() {
 	}
 
 	AddCmd.Flags().StringVarP(&add.CommandFlag, "cmd", "c", "", "What command to pin")
-	AddCmd.Flags().StringVarP(&add.IdentifierFlag, "id", "i", "", "What to pin the command as")
+	AddCmd.Flags().StringVarP(&add.IdentifierFlag, "identifier", "i", "", "What to pin the command as")
 	AddCmd.Flags().BoolVarP(&add.LocalFlag, "local", "l", false, "Whether to store the pinned command locally")
+
+	var RemoveCmd = &cobra.Command{
+		Use:   "remove",
+		Short: "Remove (unpin) a command",
+		Long:  "Remove (unpin) a command",
+		Run: func(cmd *cobra.Command, args []string) {
+			config(Verbose)
+			remove.Remove(&remove.IdentifierFlag, &remove.LocalFlag)
+		},
+	}
+
+	RemoveCmd.Flags().StringVarP(&remove.IdentifierFlag, "identifier", "i", "", "Which command to remove")
+	RemoveCmd.Flags().BoolVarP(&remove.LocalFlag, "local", "l", false, "Whether to remove a locally pinned command")
 
 	var GenDocsCmd = &cobra.Command{
 		Use:   "gendocs",
@@ -83,6 +97,7 @@ func main() {
 	PinCmd.PersistentFlags().BoolVarP(&Verbose, "verbose", "v", false, "verbose output")
 	PinCmd.AddCommand(ListCmd)
 	PinCmd.AddCommand(AddCmd)
+	PinCmd.AddCommand(RemoveCmd)
 	PinCmd.AddCommand(GenDocsCmd)
 	PinCmd.Execute()
 }

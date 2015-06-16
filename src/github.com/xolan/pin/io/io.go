@@ -2,7 +2,6 @@ package io
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"os"
 
@@ -53,25 +52,21 @@ func ReadLocal(into *command.Commands) {
 }
 
 // Store cmd into a .pin-file, either globally (~/.pin) for locally (./.pin)
-func Store(cmd *command.Command, locally bool) {
-	var stored = new(command.Commands)
+func Store(commands *command.Commands, locally bool) {
 	var path string
 
 	if locally {
-		ReadLocal(stored)
 		path = "./.pin"
 	} else {
-		ReadGlobal(stored)
 		path, _ = homedir.Expand("~/.pin")
 	}
 
-	stored.AddCommand(cmd)
-
-	if _, err := stored.HasCollision(); err != nil {
-		fmt.Errorf("Collision found")
+	if _, err := commands.HasCollision(); err != nil {
+		log.Errorln("Collision found")
+		os.Exit(1)
 	}
 
-	marshalled, _ := json.MarshalIndent(stored, "", "  ")
+	marshalled, _ := json.MarshalIndent(commands, "", "  ")
 	log.Debugln(string(marshalled))
 
 	if err := ioutil.WriteFile(path, marshalled, 0644); err == nil {

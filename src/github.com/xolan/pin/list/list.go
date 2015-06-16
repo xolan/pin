@@ -38,7 +38,7 @@ func printPinned() {
 	if hasGlobal {
 		fmt.Println("Globally pinned commands")
 		for _, command := range pinGlobal.Commands {
-			fmt.Printf("[%x] %s: %s\n", command.Hash, command.Identifier, command.Command)
+			fmt.Printf("[%s] %s: %s\n", command.Hash, command.Identifier, command.Command)
 		}
 	}
 
@@ -49,7 +49,7 @@ func printPinned() {
 	if hasLocal {
 		fmt.Println("Locally pinned commands")
 		for _, command := range pinLocal.Commands {
-			fmt.Printf("[%x] %s: %s\n", command.Hash, command.Identifier, command.Command)
+			fmt.Printf("[%s] %s: %s\n", command.Hash, command.Identifier, command.Command)
 		}
 	}
 }
