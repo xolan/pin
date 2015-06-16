@@ -5,12 +5,15 @@
 ```
 Pin is a command pinner, similar to aliasing
 
-Usage: 
+Usage:
   pin [flags]
   pin [command]
 
-Available Commands: 
+Available Commands:
   list        Display a list of pinned commands
+  add         Add (pin) a command
+  remove      Remove (unpin) a command
+  gendocs     Generate documentation for this program
   help        Help about any command
 
 Flags:
