@@ -8,6 +8,7 @@ import (
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/xolan/pin/add"
+	"github.com/xolan/pin/do"
 	"github.com/xolan/pin/list"
 	"github.com/xolan/pin/remove"
 )
@@ -43,6 +44,18 @@ func main() {
 			fmt.Println(cmd.UsageString())
 		},
 	}
+
+	var DoCmd = &cobra.Command{
+		Use:   "do",
+		Short: "Execute command with the given identifier",
+		Long:  "Execute command with the given identifier",
+		Run: func(cmd *cobra.Command, args []string) {
+			config(Verbose)
+			do.Do()
+		},
+	}
+
+	DoCmd.Flags().StringVarP(&do.IdentifierFlag, "identifier", "i", "", "Which command to execute")
 
 	var ListCmd = &cobra.Command{
 		Use:   "list",
@@ -95,8 +108,9 @@ func main() {
 	}
 
 	PinCmd.PersistentFlags().BoolVarP(&Verbose, "verbose", "v", false, "verbose output")
-	PinCmd.AddCommand(ListCmd)
+	PinCmd.AddCommand(DoCmd)
 	PinCmd.AddCommand(AddCmd)
+	PinCmd.AddCommand(ListCmd)
 	PinCmd.AddCommand(RemoveCmd)
 	PinCmd.AddCommand(GenDocsCmd)
 	PinCmd.Execute()

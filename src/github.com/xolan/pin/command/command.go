@@ -2,6 +2,7 @@ package command
 
 import (
 	"fmt"
+	"strings"
 
 	log "github.com/Sirupsen/logrus"
 )
@@ -12,6 +13,20 @@ type Command struct {
 	Command    string `json:"command"`
 	Hash       string `json:"hash"`
 	Identifier string `json:"identifier"`
+}
+
+// GetExecutable ...
+// Get the executable portion of the command
+func (command *Command) GetExecutable() string {
+	var split = strings.Split(command.Command, " ")
+	return split[0]
+}
+
+// GetArgs ...
+// Get the args portion of the command
+func (command *Command) GetArgs() string {
+	var split = strings.Split(command.Command, " ")
+	return strings.Join(split[1:], " ")
 }
 
 // Commands ...
