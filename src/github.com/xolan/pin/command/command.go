@@ -77,8 +77,12 @@ func (commands *Commands) HasCollision() (bool, error) {
 	var err error
 	for key, value := range count {
 		if value > 1 {
-			log.Errorf("Duplicate identifier found: \"%s\"", key)
-			err = fmt.Errorf("Duplicate identifier found: \"%s\"", key)
+			var errMsg = "Duplicate command entry found!"
+			log.WithFields(log.Fields{
+				"identifier": key,
+				"count":      value,
+			}).Error(errMsg)
+			err = fmt.Errorf(errMsg)
 		}
 	}
 	return err != nil, err
